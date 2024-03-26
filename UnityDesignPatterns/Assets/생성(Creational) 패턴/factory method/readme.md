@@ -1,29 +1,29 @@
-# Factory Method
-The Factory Method pattern defines an interface for creating an object where the subclasses decide which class to instantiate.
+# 팩토리 메서드
+팩토리 메서드 패턴은 서브클래스가 인스턴스화할 클래스를 결정하는 객체를 생성하기 위한 인터페이스를 정의합니다.
 
-### Structure
-The structural example can be found in **FactoryMethodStructure.cs**. Note how in the MainApp class endpoint where we are actually using the factory method our calls to create the instances of the product classes are fairly ambiguous.
+### 구조체
+구조 예제는 **FactoryMethodStructure.cs**에서 찾을 수 있습니다. 실제로 팩토리 메서드를 사용하는 MainApp 클래스 엔드포인트에서 제품 클래스의 인스턴스를 생성하기 위한 호출이 상당히 모호하다는 점에 주목하세요.
 
-- **Product** - This is the abstraction of a base class that would be used for the subclasses which can be created by the Creator.
-- **ConcreteProduct** - The actual classes that will get instantiated by the creator.
-- **Creator** - An abstract class that allows us to interface with the concrete creators.
-- **ConcreteCreator** - The actual classes that decide what products to instantiate.
+- **Product** - 생성자가 생성할 수 있는 서브클래스에 사용될 기본 클래스의 추상화입니다.
+- **구체적 제품** - 크리에이터가 인스턴스화할 실제 클래스입니다.
+- **Creator** - 구체적인 크리에이터와 인터페이스할 수 있는 추상 클래스입니다.
+- **ConcreteCreator** - 인스턴스화할 제품을 결정하는 실제 클래스.
 
-### Example
-Let's take into consideration a game where we need to build a variety of types of books.
+### 예제
+다양한 종류의 책을 만들어야 하는 게임을 예로 들어보겠습니다.
 
 - **FactoryMethodExampleAbstractions.cs**
-  - **Page** This is a base class from which we will create our subclasses (our concrete pages). It has a constructor that assigns the class fields and does some work to create the game object structure for a page. I added in some methods for getting, setting, and adding to the text contents of the pages.
-  - **Document** This is the 'abstract Creator' for the pattern. It has a constructor to make a parent game object to hold all of our pages, an abstract method to create pages (all Creators need to define how this is done. Note that the constructor also calls CreatePages which is actually defined in the subclasses. It also has a common method to automatically fill out the table of contents page.
+  - **Page** 이것은 서브클래스(구체적인 페이지)를 생성할 베이스 클래스입니다. 여기에는 클래스 필드를 할당하고 페이지의 게임 객체 구조를 생성하는 몇 가지 작업을 수행하는 생성자가 있습니다. 페이지의 텍스트 내용을 가져오고, 설정하고, 추가하는 몇 가지 메서드를 추가했습니다.
+  - **문서** 이 패턴의 '추상 생성자'입니다. 여기에는 모든 페이지를 담을 부모 게임 객체를 만드는 생성자와 페이지를 생성하는 추상 메서드가 있습니다(모든 크리에이터는 이 작업을 수행하는 방법을 정의해야 합니다). 생성자는 서브클래스에 실제로 정의된 CreatePages도 호출한다는 점에 유의하세요. 또한 목차 페이지를 자동으로 채우는 일반적인 메서드도 있습니다.
 
-- **ConcretePages.cs** - Here we define our actual pages and basically each page just has a constructor that only adds to the base constructor by setting the name of the 'page' game object in the Page class.
+- **ConcretePages.cs** - 여기서는 실제 페이지를 정의하며 기본적으로 각 페이지에는 페이지 클래스에서 '페이지' 게임 오브젝트의 이름을 설정하여 기본 생성자에 추가하는 생성자만 있습니다.
 
-- **ConcreteDocuments.cs** - Here we define our 'ConcreteCreator' classes. They have a constructor which adds to the base class's constructor and sets the name on the documentHolder game object to the name of the concrete document class (i.e. ChracterSheet, SpellBook). Then we have our required definition of CreatePages. CreatePages makes each concrete page via its constructor, adds them to the _page List for the document, and finally sets the table of contents list.
+- **ConcreteDocuments.cs** - 여기서는 'ConcreteCreator' 클래스를 정의합니다. 여기에는 기본 클래스의 생성자에 추가하는 생성자가 있으며, 문서 홀더 게임 오브젝트의 이름을 구체적인 문서 클래스의 이름(예: CharacterSheet, SpellBook)으로 설정합니다. 그런 다음 CreatePages에 대한 필수 정의가 있습니다. CreatePages는 생성자를 통해 각각의 구체적인 페이지를 만들고, 문서의 _page List에 추가한 다음, 마지막으로 목차 목록을 설정합니다.
 
-- **DocumentMaker.cs** - This is our MonoBehaviour class that will run the Document creators and then it has a simple coroutine that flips through the pages so we can see them all there.
+- **DocumentMaker.cs** - 문서 생성자를 실행하는 MonoBehaviour 클래스이며, 페이지를 넘기는 간단한 코루틴이 있어서 페이지를 모두 볼 수 있습니다.
 
-### Afterthoughts
-This pattern feels a bit heavy and very similar to a Builder pattern. The main difference is that in the Factory Method pattern the subclasses are deciding how to put the products (pages) together to form the final product. In the Builder pattern the 'Director' class tells the 'Builder' classes how to construct their final products. I'd love to have a discussion on the differences between this pattern and the Builder pattern. Anyone interested can start an issue where we can discuss it!
+### 사후 생각
+이 패턴은 약간 무겁고 빌더 패턴과 매우 유사합니다. 가장 큰 차이점은 Factory 메서드 패턴에서는 하위 클래스가 제품(페이지)을 조합하여 최종 제품을 구성하는 방법을 결정한다는 것입니다. 빌더 패턴에서는 '디렉터' 클래스가 '빌더' 클래스에게 최종 제품을 구성하는 방법을 알려줍니다. 이 패턴과 빌더 패턴의 차이점에 대해 토론하고 싶습니다. 관심이 있으신 분은 누구나 토론할 수 있는 이슈를 만들어 주세요!
 
 
 
