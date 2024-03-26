@@ -4,5 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: "Assets/\uD589\uC704(Behavioral) \uD328\uD134/command pattern/command pattern
+      example.unity"
+    guid: 84db78d1aa884244cb57b98cac903f64
   m_configObjects: {}
