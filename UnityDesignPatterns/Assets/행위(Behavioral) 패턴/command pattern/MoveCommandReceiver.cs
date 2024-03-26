@@ -4,7 +4,7 @@
 using UnityEngine;
 namespace CommandPatternExample
 {
-    public class MoveCommandReceiver : MonoBehaviour
+    public class MoveCommandReceiver
     {
         public void MoveOperation(GameObject gameObjectToMove, MoveDirection direction, float distance)
         {

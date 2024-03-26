@@ -31,14 +31,6 @@ namespace CommandPatternExample
             _gameObject = gameObjectToMove;
         }
 
-        public MoveCommand(MoveDirection value, float moveDistance, GameObject objectToMove)
-        {
-            this.value = value;
-            this.moveDistance = moveDistance;
-            this.objectToMove = objectToMove;
-        }
-
-
         //Execute new command
         public void Execute()
         {

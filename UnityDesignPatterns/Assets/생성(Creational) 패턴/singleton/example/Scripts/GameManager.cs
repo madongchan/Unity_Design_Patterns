@@ -10,27 +10,19 @@ namespace NG.Patterns.Structure.Singleton
     {
         public Text DebugText;
 
-        private string _debugMessage = "GameManager Is Running";
+        private string _debugMessage = "GameManager Is Running: ";
 
         private int _numElipses = 0;
-        private string _elipses = ".";
-
         public void Start()
         {
             //Begin the GameLoop Coroutine on start
             StartCoroutine(GameLoop());
         }
-         
-        //This is used to represent the Update() of the game. 
-        //Using a Coroutine in Unity is useful for GameLoops as it gives you more agency over the Game. 
-        //You can Start and Stop it as needed, and when the Coroutine Exits and Starts again, it begins from where it left off.
-        //Rather than starting all over from the beginning. I frequently use nested Coroutines for game Update States.
-        //i.e. RoundStarting(), RoundRunning(), RoundEnding()
+
         IEnumerator GameLoop()
         {
             while(true)
             {
-                
                 DebugText.text = _debugMessage + GetElipses();
                 yield return new WaitForSeconds(0.5f);
             }
@@ -39,13 +31,14 @@ namespace NG.Patterns.Structure.Singleton
         private string GetElipses()
         {
             string text = "";
-            for (int i = 0; i < _numElipses; i++)
+            for (int i = 0; i <= _numElipses; i++)
             {
-                text += _elipses;
+                text += i.ToString();
             }
             _numElipses++;
-            if (_numElipses > 3)
-                _numElipses = 0;
+            if (_numElipses > 5)
+                Dispose();
+                //_numElipses = 0;
             return text;
         }
     }
