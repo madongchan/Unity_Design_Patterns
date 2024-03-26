@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-namespace NG.Patterns.Structure.Singleton
-{
-    public class Singleton<T> : MonoBehaviour where T : Singleton<T>
-    {
+namespace NG.Patterns.Structure.Singleton {
+    public class Singleton<T> : MonoBehaviour where T : Singleton<T> {
         // 지정된 클래스 타입의 인스턴스
         private static T _instance;
 
@@ -14,20 +12,16 @@ namespace NG.Patterns.Structure.Singleton
         bool _disposing = false;
 
         // 다른 클래스에서 싱글턴에 접근할 수 있도록 하는 공개 접근자. <클래스명>.Instance로 타이핑하여 접근
-        public static T Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
+        public static T Instance {
+            get {
+                if (_instance == null) {
                     // 인스턴스가 없으면 찾아서 설정한다.
                     _instance = FindObjectOfType<T>();
                 }
                 return _instance;
             }
 
-            set
-            {
+            set {
                 lock (_instLock) // 스레드 안전성 보장
                 {
                     if (_instance == null)  // _instance가 null일 때만 설정
@@ -41,10 +35,11 @@ namespace NG.Patterns.Structure.Singleton
         // 프로그래머에게 함수를 오버라이드해야 함을 알리기 위해 가상 함수로 만듬
         // 프로그래머가 호출을 완전히 오버라이드할지, 아니면 새로운 기능과 함께 기본 호출을 포함할지 결정할 수 있도록 함.
         // C#에서는 새 클래스에서 base.Awake()를 호출함으로써 이를 수행함
-        public virtual void Awake()
-        {
-            if (Instance == null)
+        public virtual void Awake() {
+            if (Instance == null) {
+                Debug.Log($"{(T)this} is the singleton instance.");
                 Instance = (T)this;
+            }
             else if (Instance != this)  // 이미 이 클래스의 인스턴스가 있는지 확인
             {
                 // 이미 이 클래스의 인스턴스가 있다면, 방금 생성된 객체를 파괴한다.
@@ -54,8 +49,7 @@ namespace NG.Patterns.Structure.Singleton
         }
 
         // 싱글턴 인스턴스의 적절한 청소는 가비지 컬렉션을 허용하기 위해 참조를 null로 설정하는 것을 포함함
-        protected virtual void Dispose()
-        {
+        protected virtual void Dispose() {
             _disposing = true;
             Instance = null;
 
@@ -63,8 +57,7 @@ namespace NG.Patterns.Structure.Singleton
         }
 
         // 부적절한 방식으로 파괴된 경우
-        public virtual void OnDestroy()
-        {
+        public virtual void OnDestroy() {
             if (!_disposing)
                 _disposing = true;
 
